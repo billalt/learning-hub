@@ -4,6 +4,7 @@ import com.intuit.interview.learninghub.model.Topic;
 import com.intuit.interview.learninghub.model.TopicPath;
 import com.intuit.interview.learninghub.model.User;
 import com.intuit.interview.learninghub.request.RateTopicRequest;
+import com.intuit.interview.learninghub.response.TopicPathResponse;
 import com.intuit.interview.learninghub.services.MapValidationErrorService;
 import com.intuit.interview.learninghub.services.TopicPathService;
 import com.intuit.interview.learninghub.services.TopicService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/topic")
@@ -69,5 +71,13 @@ public class TopicApi {
 
         Topic topic = userToTopicService.rateTopicByUser(rateTopicRequest, principal.getName());
         return  new ResponseEntity<Topic>(topic , HttpStatus.OK);
+    }
+
+    @GetMapping("/topicpath/{topicIdentifier}")
+    public ResponseEntity<?> getPathByTopic(@PathVariable String topicIdentifier){
+
+        List<TopicPathResponse> topic = pathService.getPathByTopic(topicIdentifier);
+
+        return  new ResponseEntity<List<TopicPathResponse>>(topic , HttpStatus.OK);
     }
 }
